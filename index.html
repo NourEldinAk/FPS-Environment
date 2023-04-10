@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>FPS Environment</title>
+	<script src="https://www.x3dom.org/download/x3dom.js"></script>
+  <link rel='stylesheet' type='text/css' href='https://www.x3dom.org/download/dev/x3dom.css' />
+  <link href="https://fonts.googleapis.com/css2?family=DynaPuff&family=Karla:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body >
+    <div>
+        <button onclick="bathroom_floor()" class="btn">Bathroom Floor</button>
+        <button onclick="switch_mode()" id="nav_button" class="btn2">Walk Mode</button>
+        <ul class="keys pretty">
+          <h1>          Use the following keys to interact with the environment        </h1>
+          <li>(1) <span>Living Room Red Light</span></li>
+          <li>(2) <span>Living Room Blue Light</span></li>
+          <li>(3) <span>Side Room Red Light</span></li>
+          <li>(4) <span>Side Room Blue Light</span></li>
+          <li>(5) <span>Bathroom Red Light</span></li>
+          <li>(6) <span>Bathroom Blue Light</span></li>
+          <li>(7) <span>Bathroom Floor Texture</span></li>
+
+        </ul>
+    </div>
+    <div class="credits">
+      <ul class="pretty">
+        <h1>Credits For Models</h1>
+        
+        <li>House Model: <a target="_blank" href="https://sketchfab.com/3d-models/summer-house-e60d226d824c46598ada78b502532537">By SINNIK</a>On SketchFab</li>
+        <li>Bathroom Model: <a target="_blank" href="https://sketchfab.com/3d-models/gebron-bathroom-2-64-tub-4-11wall-39a29579410e460fa61ab8d1281ad3c1">By bryce.ussery</a>On SketchFab</li>
+        <li>Spotlight Model: <a target="_blank" href="https://sketchfab.com/3d-models/spotlight-27cd74e1bcd44230b4f4bce39ceb3342">By Théo Richard</a>On SketchFab</li>
+        <h1>Credits For Textures</h1>
+        <li><a target="_blank" href="https://www.freepik.com/free-photo/rough-architect-structure-stonewall-superb_1089951.htm#query=natural%20stone%20floor&position=23&from_view=keyword&track=ais">By jigsawstocker</a> on Freepik</li>
+        <li><a target="_blank" href="https://www.freepik.com/free-photo/stone-texture_1034057.htm#query=natural%20stone%20floor&position=22&from_view=keyword&track=ais">By kues1</a> on Freepik</li>
+        <li><a target="_blank" href="https://www.freepik.com/free-photo/stone-pavement_2971896.htm#query=natural%20stone%20floor&position=24&from_view=keyword&track=ais">By rawpixel.com</a> on Freepik</li>
+
+      </ul>
+    </div>
+	<x3d>
+		<scene background ="1 1 1">
+            <!-- the summer house -->
+            <Group>
+              <transform>
+                <Collision collide="true">
+                  <inline url="../models/summer_house.glb"></inline>
+                </Collision>
+                </transform>
+            <!-- the summer house -->
+
+            <!-- modern bathroom -->
+            <Transform  translation='-17.72470 .5 9.03700'
+            rotation='0 1 0 -1.46'
+            >
+            <Collision collide="true">
+
+                  <inline scale="1.5 1.5 1.5"   url="../models/extrior_bathroom.glb"></inline>
+            </Collision>
+
+                </Transform>
+
+            <!-- modern bathroom -->
+
+            <!-- the bathroom floor -->
+            <Transform translation="-17.72470 .3 9.03700">
+              <Collision collide="true">
+
+                <Shape>
+                  <Appearance>
+                    <Material diffuseColor="0 0.6 0"></Material>
+                    <ImageTexture id="floor_texture" url="../floor/floor_1.jpg"></ImageTexture>
+                </Appearance>
+                  <Box size="10 0.1 10"   />
+                </Shape>
+                </Collision>
+              </Transform>
+            <!-- the bathroom floor -->
+
+              <!-- start of the spotlight -->
+              <Transform scale=".01 .01 .01" translation="-1.5 3 5.5">
+                <Collision collide="true">
+
+                <inline url="../models/spotlight.glb"></inline>
+                </Collision>
+            </Transform>
+              <!-- end of the spotlight -->
+
+
+            <!-- The ball for lighting -->
+              <transform translation="-1.5 3 5.5">
+                <Collision collide="true">
+
+                <Shape>
+                  <Appearance>
+                    <Material id="ball_texture" specularColor='1 1 1' diffuseColor="1 1 1"/>
+                  </Appearance>
+                  <Sphere radius=".1"/>
+                </Shape>
+                </Collision>
+            </transform>
+            <!-- The ball for lighting -->
+
+            <!-- the light switcher -->
+            <transform translation="1.99381 1.73230 3.11132">
+              <Collision collide="true">
+
+                <shape>
+                    <appearance>
+                        <material diffuseColor="1 0 0"></material>
+                    </appearance>
+                    <Box id="red_switcher" onclick="light_switcher('1 0 0','living_room')" size="0.09 0.09 0.09"></Box>
+                </shape>
+                </Collision>
+            </transform>
+            <Transform translation="1.99381 1.73230 3.41132">
+              <Collision collide="true">
+                <Shape>
+                    <appearance>
+                        <material diffuseColor="0 0 1"></material>
+                    </appearance>
+                  <Box id="blue_switcher" onclick="light_switcher('0 0 1','living_room')" size="0.09 0.09 0.09"></Box>
+                </Shape>
+                </Collision>
+            </Transform>
+            <!-- the light switcher -->
+
+            <!-- room light objects -->
+            <Transform scale=".01 .01 .01" translation="9.98342 2.93656 4.86829">
+              <Collision collide="true">
+
+            <inline url="../models/spotlight.glb"></inline>
+            </Collision>
+        </Transform>
+            <transform translation="9.98342 2.93656 4.86829">
+              <Collision collide="true">
+
+                <Shape>
+                  <Appearance>
+                    <Material id="room_ball_texture" specularColor='1 1 1' diffuseColor="1 1 1"/>
+                  </Appearance>
+                  <Sphere radius=".1"/>
+                </Shape>
+                </Collision>
+            </transform>
+
+            <!-- room light objects -->
+            <!-- room light switcher -->
+            <transform translation="8.03722 1.73593 9.07506">
+              <Collision collide="true">
+                <shape>
+                    <appearance>
+                        <material diffuseColor="1 0 0"></material>
+                    </appearance>
+                    <Box id="red_switcher" onclick="light_switcher('1 0 0','room')" size="0.09 0.09 0.09"></Box>
+                </shape>
+                </Collision>
+            </transform>
+            <Transform translation="8.33722 1.73593 9.07506">
+              <Collision collide="true">
+                <Shape>
+                    <appearance>
+                        <material diffuseColor="0 0 1"></material>
+                    </appearance>
+                  <Box id="blue_switcher" onclick="light_switcher('0 0 1' ,'room')" size="0.09 0.09 0.09"></Box>
+                </Shape>
+                </Collision>
+            </Transform>
+            <!-- room light switcher -->
+            <!-- bathroom light -->
+
+            <Transform scale=".01 .01 .01" translation="-17.17926 2.94577 8.37856">
+              <Collision collide="true">
+                <Appearance>
+                    <Material diffuseColor="0 0.6 0"></Material>
+                    <ImageTexture id="glass_texture" ></ImageTexture>
+                </Appearance>
+            <inline url="../models/spotlight.glb"></inline>
+            </Collision>
+        </Transform>
+            <transform translation="-17.17926 2.94577 8.37856">
+              <Collision collide="true">
+                <Shape>
+                  <Appearance>
+                    <Material id="bath_ball_texture" specularColor='1 1 1' diffuseColor="1 1 1"/>
+                  </Appearance>
+                  <Sphere radius=".1"/>
+                </Shape>
+                </Collision>
+            </transform>
+            <!-- bathroom light -->
+            <!-- bathroom light switcher -->
+            <transform translation="-18.74835 1.89437 7.13420">
+              <Collision collide="true">
+                <shape>
+                    <appearance>
+                        <material diffuseColor="1 0 0"></material>
+                    </appearance>
+                    <Box id="red_switcher" onclick="light_switcher('1 0 0','bath')" size="0.09 0.09 0.09"></Box>
+                </shape>
+                </Collision>
+            </transform>
+            <Transform translation="-18.94835 1.89437 7.13420">
+              <Collision collide="true">
+                <Shape>
+                    <appearance>
+                        <material diffuseColor="0 0 1"></material>
+                    </appearance>
+                  <Box id="blue_switcher" onclick="light_switcher('0 0 1' ,'bath')" size="0.09 0.09 0.09"></Box>
+                </Shape>
+                </Collision>
+            </Transform>
+            <!-- bathroom light switcher -->
+
+
+           <!-- the light -->
+           <PointLight id="room_light" on="true" location='9.98342 2.93656 4.86829' intensity='.4' color='0 0 0'  beamWidth="0.02" cutOffAngle="0.03"/>
+           <PointLight id="bath_light" on="true" location='-17.17926 2.94577 8.37856' intensity='.4' color='0 0 0'  beamWidth="0.02" cutOffAngle="0.03"/>
+
+           <PointLight id="light" on="true" location='-1.5 3 5.5' intensity='.6' color='0 0 0'  beamWidth="0.02" cutOffAngle="0.03"/>
+           <!-- the light -->
+        </Group>
+
+        
+        <Viewpoint id="pov" position="-15.31420 1.70745 -6.49728" orientation="0.00103 0.99998 0.00678 3.44284"  fieldOfView="0.78500" ></Viewpoint>
+        <NavigationInfo id="navigation" avatarSize="2.5" rotationSpeed="0.5" speed="1.5" type='walk'  />
+        </scene>
+	</x3d>
+
+
+    <script src="index.js"></script>
+</body>
+</html>
